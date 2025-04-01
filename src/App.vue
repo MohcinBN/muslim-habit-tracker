@@ -28,12 +28,11 @@ const handleDateSelected = (date) => {
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
+
 :root {
   direction: rtl;
 }
-
-/* Add Noto Naskh Arabic font */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
 
 body {
   font-family: 'Noto Naskh Arabic', serif;
