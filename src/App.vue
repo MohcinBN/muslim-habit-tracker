@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import Calendar from './components/Calendar.vue'
 import HabitList from './components/HabitList.vue'
+import AppDescription from './components/AppDescription.vue'
 
 const selectedDate = ref(new Date())
 
@@ -16,6 +17,7 @@ const handleDateSelected = (date) => {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="md:col-span-1">
           <Calendar @dateSelected="handleDateSelected" />
+          <AppDescription />
         </div>
         <div class="md:col-span-2">
           <HabitList :selectedDate="selectedDate" />
@@ -35,5 +37,6 @@ const handleDateSelected = (date) => {
 
 body {
   font-family: 'Noto Naskh Arabic', serif;
+  background-color: #f3f4f6;
 }
 </style>
