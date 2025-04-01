@@ -1,29 +1,33 @@
 <template>
-  <div class="p-4 bg-white rounded-lg shadow">
+  <div class="p-4 bg-white rounded-lg shadow" dir="rtl">
     <div class="flex justify-between items-center mb-4">
       <button 
-        @click="previousMonth"
-        class="p-2 hover:bg-gray-100 rounded-full"
+        @click="nextMonth"
+        class="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 flex items-center"
+        aria-label="الشهر التالي"
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
         </svg>
+        <span class="mr-1 text-sm">الشهر السابق</span>
       </button>
       <h2 class="text-xl font-semibold text-gray-800">
         {{ currentMonth }} {{ currentYear }}
       </h2>
       <button 
-        @click="nextMonth"
-        class="p-2 hover:bg-gray-100 rounded-full"
+        @click="previousMonth"
+        class="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 flex items-center"
+        aria-label="الشهر السابق"
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        <span class="ml-1 text-sm">الشهر التالي</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
         </svg>
       </button>
     </div>
 
     <div class="grid grid-cols-7 gap-1 mb-2">
-      <div v-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" 
+      <div v-for="day in weekDays" 
            class="text-center text-sm font-medium text-gray-600 p-2">
         {{ day }}
       </div>
@@ -56,9 +60,11 @@ const currentDate = ref(new Date())
 const selectedDate = ref(new Date())
 
 const months = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
 ]
+
+const weekDays = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت']
 
 const currentMonth = computed(() => months[currentDate.value.getMonth()])
 const currentYear = computed(() => currentDate.value.getFullYear())
@@ -142,7 +148,11 @@ const isToday = (day) => {
 </script>
 
 <style scoped>
-  div:hover {
-    background-color: #93c5fd;
-  }
+.calendar-nav-button {
+  @apply flex items-center px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200;
+}
+
+.calendar-nav-button:hover {
+  @apply bg-gray-100 text-gray-900;
+}
 </style>

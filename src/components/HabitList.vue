@@ -14,27 +14,27 @@ const customHabits = ref([])
 const defaultHabits = [
   {
     id: 1,
-    text: "Read one Quran page per day",
+    text: "قراءة صفحة من القرآن يومياً",
     checked: false
   },
   {
     id: 2,
-    text: "Learn about your field of specialization",
+    text: "تعلم في مجال تخصصك",
     checked: false
   },
   {
     id: 3,
-    text: "Pray your daily prayers at time",
+    text: "الصلاة على وقتها",
     checked: false
   },
   {
     id: 4,
-    text: "Train at least for 30 mins",
+    text: "التمرين لمدة 30 دقيقة على الأقل",
     checked: false
   },
   {
     id: 5,
-    text: "Do your morning and night adhkar",
+    text: "أذكار الصباح والمساء",
     checked: false
   }
 ]
@@ -81,14 +81,21 @@ const loadFromLocalStorage = () => {
     habits.value = dateHabits.defaultHabits
     customHabits.value = dateHabits.customHabits
   } else {
-    // If no habits exist for this date, initialize with unchecked default habits
     habits.value = defaultHabits.map(habit => ({ ...habit, checked: false }))
     customHabits.value = []
     saveToLocalStorage()
   }
 }
 
-// Watch for date changes
+const formatDate = (date) => {
+  return new Intl.DateTimeFormat('ar-SA', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date)
+}
+
 watch(() => props.selectedDate, () => {
   loadFromLocalStorage()
 })
@@ -97,7 +104,6 @@ onMounted(() => {
   loadFromLocalStorage()
 })
 
-// Watch for changes in both habit lists
 watch([habits, customHabits], () => {
   saveToLocalStorage()
 }, { deep: true })
@@ -106,16 +112,16 @@ watch([habits, customHabits], () => {
 <template>
   <div class="p-4">
     <div class="mb-4">
-      <h2 class="text-2xl font-bold text-gray-800">Habits for {{ props.selectedDate.toLocaleDateString() }}</h2>
+      <h2 class="text-2xl font-bold text-gray-800">العادات ليوم {{ formatDate(props.selectedDate) }}</h2>
     </div>
     
     <!-- Default Habits Section -->
     <div class="mb-6">
-      <h3 class="text-lg font-semibold mb-3 text-gray-700">Essential Habits</h3>
+      <h3 class="text-lg font-semibold mb-3 text-gray-700">العادات الأساسية</h3>
       <ul class="space-y-2">
         <li v-for="habit in habits" :key="habit.id" 
             class="flex items-center justify-between p-3 bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-200">
-          <div class="flex items-center space-x-3">
+          <div class="flex items-center space-x-3 space-x-reverse">
             <input
               type="checkbox"
               :checked="habit.checked"
@@ -136,19 +142,19 @@ watch([habits, customHabits], () => {
 
     <!-- Custom Habits Section -->
     <div class="mt-8">
-      <h3 class="text-lg font-semibold mb-3 text-gray-700">Custom Habits</h3>
+      <h3 class="text-lg font-semibold mb-3 text-gray-700">عادات إضافية</h3>
       <div class="mb-4">
         <input
           type="text"
           @keyup.enter="$event.target.value && addHabit($event.target.value) && ($event.target.value = '')"
-          placeholder="Add a new habit..."
-          class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="أضف عادة جديدة..."
+          class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
         >
       </div>
       <ul class="space-y-2">
         <li v-for="habit in customHabits" :key="habit.id" 
             class="flex items-center justify-between p-3 bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-200">
-          <div class="flex items-center space-x-3">
+          <div class="flex items-center space-x-3 space-x-reverse">
             <input
               type="checkbox"
               :checked="habit.checked"
